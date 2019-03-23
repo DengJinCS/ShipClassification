@@ -1,6 +1,7 @@
 import os
 import pickle
 import sys
+from math import ceil
 from math import floor
 from random import shuffle, random
 
@@ -19,7 +20,6 @@ class DataLoader():
         if RESET_PICKLE:
             dictionary = {}
             self.pickle_save(dictionary)
-
     def load_data(self, recurrent=False):
         if MOCK_DATA:
             return self.load_mock_data()
