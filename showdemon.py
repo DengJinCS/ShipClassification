@@ -4,6 +4,7 @@ import numpy as np
 import scipy.signal
 from scipy import signal
 
+#hello from Mac
 # demon parameters
 decimation_rate1 = 10
 decimation_rate2 = 10
