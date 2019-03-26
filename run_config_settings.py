@@ -3,24 +3,36 @@ Python 3.4.3
 librosa 0.4.3
 Tensorflow 0.6.0, upgraded to 0.12.0
 '''
-
 from os import path
 
 DATA_PATH = path.dirname(path.realpath(__file__)) + "/Data/ShipsEar"
 LOG_PATH = "/tmp/tensorflow/ShipClassification"
 
+NR_OF_CLASSES = 11
+# INCLUDED_VESSELS = ["A", "B", "C", "D"]
+INCLUDED_VESSELS = ["A", "B", "C", "D", "E", "P", "G", "H", "I", "J", "K"]
+'''
+INCLUDED_VESSELS = ["Dredger",
+                    "Fishboat",
+                    "Motorboat",
+                    "Musselboat",
+                    "Oceanliner",
+                    "Passengers",
+                    "Pilotship",
+                    "RORO",
+                    "Sailboat",
+                    "Trawler",
+                    "Tugboat"]
+'''
 
-
-NR_OF_CLASSES = 4
-INCLUDED_VESSELS = ["A", "B", "C", "D"]
 # INCLUDED_VESSELS = ["speedboat", "tanker"]
 # INCLUDED_VESSELS = ["ferry", "speedboat", "tanker", "sub"]
 TEST_PERCENTAGE = 0.1
-SAMPLING_RATE = 6000
+SAMPLING_RATE = 52734
 NR_OF_FILES = 987
 # 85 files in total
-SAMPLES_PR_FILE = 10
-SAMPLE_LENGTH = 2  # sec
+SAMPLES_PR_FILE = 100
+SAMPLE_LENGTH = 0.1  # sec
 
 FFT_WINDOW_SIZE = 1024
 N_MFCC = 20
@@ -54,7 +66,7 @@ USE_PRELOADED_DATA = True
 BATCH_SIZE = 10
 # EPOCS = ceil(NR_OF_FILES * SAMPLES_PR_FILE / BATCH_SIZE) # To ensure all samples being used in training
 EPOCS = 100
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.0001
 BIAS_ENABLED = True
 DROPOUT_RATE = 0.9
 

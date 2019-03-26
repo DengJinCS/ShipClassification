@@ -8,9 +8,12 @@ from FeatureExtraction.feature_extractor_base import FeatureExtractorBase
 decimation_rate1 = 25
 decimation_rate2 = 25
 n_pts_fft = 1024
-window_size = 20  # in seconds
+window_size = 2  # in seconds
 n_pts_windows = window_size * n_pts_fft
 overlap = 0.5  # in seconds
+
+
+# test from ubuntu
 
 
 

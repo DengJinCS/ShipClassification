@@ -12,7 +12,7 @@ n_pts_fft = 2048
 # n_pts_windows = window_size*n_pts_fft
 overlap = 0.5  # in seconds
 
-datapath = "F:\PythonCode\ShipClassification\Data\ShipsEar\B2.wav"
+datapath = "F:\PythonCode\ShipClassification\Data\ShipsEar\shipA_3.wav"
 
 # bandpass:5k-25k
 sample, SAMPLING_RATE = librosa.load(datapath, sr=None)
@@ -47,6 +47,7 @@ fs_decimate1 = float(SAMPLING_RATE) / float(decimation_rate1)
 
 # decimation in 2 steps - second step
 sample_decimate2 = scipy.signal.decimate(sample_decimate1, decimation_rate1)
+print("Len of signal-2", len(sample_decimate2))
 fs_decimate2 = float(fs_decimate1) / float(decimation_rate2)
 
 n_pts_overlap = np.floor(n_pts_fft - fs_decimate2 * overlap)

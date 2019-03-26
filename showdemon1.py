@@ -6,28 +6,29 @@ import scipy
 from scipy import signal
 
 
-def butter_highpass(data, cutoff, fs, order=5):
+def band_pass(data, fs, low, high, order=5):
     nyq = 0.5 * fs
-    normal_cutoff = cutoff / nyq
-    b, a = signal.butter(order, normal_cutoff, btype='high', analog=False)
-    y = scipy.signal.filtfilt(b, a, data)
+    normalized_low = low / nyq
+    normalized_high = high / nyq
+    sos = signal.butter(order, [normalized_low, normalized_high], btype='bandpass', output='sos')
+    y = signal.sosfilt(sos, data)
     return y
 
 
-def test(sample, fs, cutoff=1000):
-    sample = butter_highpass(sample, cutoff, fs=fs, order=9)
+def test(sample, fs, low=2000, high=20000, order=9):
+    sample = band_pass(sample, fs=fs, low=low, high=high, order=order)
     D = librosa.amplitude_to_db(np.abs(librosa.stft(sample)), ref=np.max)
-    dis.specshow(D, y_axis='linear')
+    dis.specshow(D, y_axis='log', sr=fs, x_axis='s')
     plt.colorbar(format='%+2.0f dB')
-    plt.title('Linear-frequency power spectrogram')
+    plt.title('Log-frequency power spectrogram')
     plt.show()
 
 
-def DemonAnalysis(data, fs, DEMON_rate=1024):
-    # sample = butter_highpass(data, cutoff, fs=fs, order=11)
+def DemonAnalysis(data, fs, low=2000, high=20000, DEMON_rate=1024, order=9):
+    sample = band_pass(data, fs=fs, low=low, high=high, order=order)
     # Band Pass Filter
-    h_signal = signal.hilbert(data)
-    envlope = np.abs(h_signal)
+    h_signal = signal.hilbert(sample)
+    envlope = np.sqrt(h_signal * h_signal + sample * sample)
 
     # window
     length = int(len(envlope) * DEMON_rate / fs)
@@ -46,21 +47,24 @@ def DemonAnalysis(data, fs, DEMON_rate=1024):
     plt.title('arv-Envlope')
     plt.show()
 
-    data_demon = librosa.stft(arv_envlope)
-    librosa.display.specshow(librosa.amplitude_to_db(np.abs(data_demon)),
-                             sr=DEMON_rate,
-                             hop_length=512,
-                             y_axis='log',
-                             x_axis='s')
+    # data_demon = librosa.stft(arv_envlope)
+    # D_demon = librosa.amplitude_to_db(np.abs(data_demon),ref=np.max)
+    overlap = np.floor(DEMON_rate / 4)
+    n_pts_overlap = np.floor(2048 - DEMON_rate * 0.25)
+    # print("Len of D_demon",len(D_demon))
+    f, t, Sxx = scipy.signal.spectrogram(arv_envlope.T - np.mean(arv_envlope),
+                                         fs=DEMON_rate,
+                                         window=scipy.signal.windows.hann(1024))
+    abs_D = np.abs(Sxx)
+    plt.pcolormesh(t, f, Sxx)
     plt.title('DEMON spectrogram')
-    plt.colorbar(format='%+2.0f dB')
     plt.show()
 
     # print(len(data_demon), "data_demon", data_demon)
 
 
-datapath = "F:\PythonCode\ShipClassification\Data\ShipsEar\shipA.wav"
+datapath = "F:\PythonCode\ShipClassification\Data\ShipsEar\shipA_1.wav"
 sample, rate = librosa.load(datapath, sr=None)
 print("RATE of sample=", rate)
-test(sample, rate)
-DemonAnalysis(sample, fs=rate)
+test(sample, fs=rate, low=2000, high=20000, order=11)
+DemonAnalysis(sample, fs=rate, low=2000, high=20000, DEMON_rate=2048, order=9)
