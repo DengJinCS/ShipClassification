@@ -62,6 +62,7 @@ class FeedForwardNN(NeuralNetworkBase):
         self.sess = tf.Session()
         self.sess.run(self.init)
         # self.test_accuracy_of_solution(samples, labels, samples_test, labels_test)
+        m_saver = tf.train.Saver()  # save the model
 
         for epoch in range(self.epochs):
             nr_of_batches_to_cover_all_samples = int(len(samples)/BATCH_SIZE)
@@ -71,6 +72,8 @@ class FeedForwardNN(NeuralNetworkBase):
                 # batch_xs, batch_ys = self.get_next_batch(i*BATCH_SIZE, BATCH_SIZE, samples, labels)
                 batch_xs, batch_ys = self.get_random_batch(BATCH_SIZE, samples, labels)
                 self.sess.run(self.train_step, feed_dict={self.layer_tensors[0]: batch_xs, self.layer_tensors[-1]: batch_ys, self.keep_prob: self.dropout_rate})
+                if epoch % 25 == 0:
+                    m_saver.save(self.sess, 'modle/FeedForwardNN', global_step=epoch)
             print("hola", self.sess.run(self.cost, feed_dict={self.layer_tensors[0]: batch_xs, self.layer_tensors[-1]: batch_ys, self.keep_prob: self.dropout_rate}))
             self.test_accuracy_of_solution(samples, labels, samples_test, labels_test)
         print("Optimization Finished!")

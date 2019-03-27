@@ -44,7 +44,7 @@ class RecurrentNN(NeuralNetworkBase):
         self.sess = tf.Session()
         self.sess.run(self.init)
         self.test_accuracy_of_solution(samples, labels, samples_test, labels_test, reshape=False)
-
+        m_saver = tf.train.Saver()
         for epoch in range(self.epochs):
             nr_of_batches_to_cover_all_samples = int(len(samples)/BATCH_SIZE)
             sys.stdout.write("\rTraining network %02d%%\t" % floor((epoch + 1) * (100 / self.epochs)))
@@ -52,7 +52,7 @@ class RecurrentNN(NeuralNetworkBase):
             for j in range(nr_of_batches_to_cover_all_samples):
                 batch_xs, batch_ys = self.get_random_batch(BATCH_SIZE, samples, labels)
                 self.sess.run(self.train_step, feed_dict={self.input_tensor: batch_xs, self.output_tensor: batch_ys, self.keep_prob: self.dropout_rate})
-
+                m_saver.save(self.sess, './model/RNN', global_step=epoch)  # save RNN modle
             self.test_accuracy_of_solution(samples, labels, samples_test, labels_test, reshape=False)
         print("Optimization Finished!")
 

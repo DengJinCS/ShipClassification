@@ -8,9 +8,10 @@ from os import path
 DATA_PATH = path.dirname(path.realpath(__file__)) + "/Data/ShipsEar"
 LOG_PATH = "/tmp/tensorflow/ShipClassification"
 
-NR_OF_CLASSES = 11
+NR_OF_CLASSES = 2
 # INCLUDED_VESSELS = ["A", "B", "C", "D"]
-INCLUDED_VESSELS = ["A", "B", "C", "D", "E", "P", "G", "H", "I", "J", "K"]
+INCLUDED_VESSELS = ["0", "1"]
+# INCLUDED_VESSELS = ["A", "B", "C", "D", "E", "P", "G", "H", "I", "J", "K"]
 '''
 INCLUDED_VESSELS = ["Dredger",
                     "Fishboat",
@@ -28,11 +29,11 @@ INCLUDED_VESSELS = ["Dredger",
 # INCLUDED_VESSELS = ["speedboat", "tanker"]
 # INCLUDED_VESSELS = ["ferry", "speedboat", "tanker", "sub"]
 TEST_PERCENTAGE = 0.1
-SAMPLING_RATE = 52734
+SAMPLING_RATE = 2000
 NR_OF_FILES = 987
 # 85 files in total
-SAMPLES_PR_FILE = 100
-SAMPLE_LENGTH = 0.1  # sec
+SAMPLES_PR_FILE = 2
+SAMPLE_LENGTH = 1  # sec
 
 FFT_WINDOW_SIZE = 1024
 N_MFCC = 20

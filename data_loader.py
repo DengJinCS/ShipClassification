@@ -126,7 +126,7 @@ class DataLoader():
             # The length of each sample is the sample length * number of related steps
             offset = (duration - (SAMPLE_LENGTH * RELATED_STEPS)) / (SAMPLES_PR_FILE // RELATED_STEPS)
             for sample_nr in range(SAMPLES_PR_FILE // RELATED_STEPS):
-                y, sr = librosa.load(root + "/Ship/" + filename, sr=self.sampling_rate,
+                y, sr = librosa.load(root + "/UW/" + filename, sr=self.sampling_rate,
                                      duration=SAMPLE_LENGTH * RELATED_STEPS, offset=sample_nr * offset)
                 samples.append(y)
                 labels.append(label)
@@ -135,7 +135,7 @@ class DataLoader():
             for sample_nr in range(SAMPLES_PR_FILE):
                 # May be better to load the file in its entirity and then split it into several samples
 
-                y, sr = librosa.load(root + "/Ship/" + filename, sr=self.sampling_rate, duration=SAMPLE_LENGTH,
+                y, sr = librosa.load(root + "/UW/" + filename, sr=self.sampling_rate, duration=SAMPLE_LENGTH,
                                      offset=sample_nr * offset)
                 samples.append(y)
                 labels.append(label)
@@ -143,7 +143,7 @@ class DataLoader():
         return samples, labels
 
     def get_data_filenames(self):
-        for path, subdirs, files in os.walk(DATA_PATH + "/Ship"):
+        for path, subdirs, files in os.walk(DATA_PATH + "/UW"):
             return [name for name in files]
 
     def filter_only_included_vessels(self, all_data_filenames):
