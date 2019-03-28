@@ -30,8 +30,10 @@ INCLUDED_VESSELS = ["Dredger",
 # INCLUDED_VESSELS = ["ferry", "speedboat", "tanker", "sub"]
 TEST_PERCENTAGE = 0.1
 SAMPLING_RATE = 2000
-NR_OF_FILES = 987
+NR_OF_FILES = 30000
 # 85 files in total
+FILE_LENTH = 2
+SAVE_MODEL = ''
 SAMPLES_PR_FILE = 2
 SAMPLE_LENGTH = 1  # sec
 

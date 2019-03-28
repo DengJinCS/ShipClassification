@@ -41,12 +41,13 @@ class DataLoader():
         for i in range(len(included_filenames)):
             samples_from_one_file, labels_from_one_file = self.load_samples_from_file(root=DATA_PATH, filename=included_filenames[i], recurrent=recurrent)
             if USE_WHOLE_FILE_AS_TEST:
-                if included_filenames[i][:3] in files_used_for_testing: # The three first letters of a filename is type identificator
+                if included_filenames[i][
+                   :1] in files_used_for_testing:  # The first letters of a filename is type identificator
                     noisy_samples, noisy_labels = self.create_noisy_samples(samples_from_one_file, labels_from_one_file[0])
                     samples += samples_from_one_file + noisy_samples
                     labels += labels_from_one_file + noisy_labels
                 else:
-                    files_used_for_testing.append(included_filenames[i][:3])
+                    files_used_for_testing.append(included_filenames[i][:1])
                     samples_test += samples_from_one_file
                     labels_test += labels_from_one_file
             elif USE_RANDOM_SAMPLES_AS_TEST:
@@ -114,7 +115,7 @@ class DataLoader():
     def load_samples_from_file(self, root, filename, recurrent):
         samples = []
         labels = []
-        duration = 10.0
+        duration = FILE_LENTH
 
         label = np.zeros(NR_OF_CLASSES)
         for j in range(NR_OF_CLASSES):

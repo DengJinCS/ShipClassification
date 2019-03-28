@@ -3,6 +3,7 @@ from tkinter import ttk
 
 import data_loader as dl
 import main_program
+import run_config_settings
 from FeatureExtraction import short_time_fourier_transform, wavelet_transform, mel_frequency_cepstral_coefficients, \
     spectral_density_estimation, no_feature_extraction, spectrogram, DEMON
 from NeuralNetwork import feed_forward_neural_network, convolutional_neural_network, recurrent_neural_network
@@ -10,7 +11,6 @@ from run_config_settings import *
 
 
 class GUI(tk.Tk):
-
     feature_extraction_techniques = ["No Feature Extraction",
                                      "Short-time Fourier Transform",
                                      "Wavelet Transform",
@@ -62,6 +62,7 @@ class GUI(tk.Tk):
     def start_program(self):
         data_loader = dl.DataLoader(TEST_PERCENTAGE, SAMPLING_RATE)
         FEtype = self.FEbox.get()
+        run_config_settings.SAVE_MODEL = FEtype
         if FEtype == self.feature_extraction_techniques[0]:
             feature_extractor = no_feature_extraction.NoFE()
         elif FEtype == self.feature_extraction_techniques[1]:
